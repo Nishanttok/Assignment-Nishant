@@ -22,19 +22,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from drf_yasg.generators import OpenAPISchemaGenerator
-# from customer.common.views import *
-# schema_view = get_schema_view(
-# 	openapi.Info(
-# 		title="Project",
-# 		default_version='v1',
-# 		description="Project description",
-# 		terms_of_service="https://www.google.com/policies/terms/",
-# 		contact=openapi.Contact(email="contact@snippets.local"),
-# 		license=openapi.License(name="BSD License"),
-# 	),
-# 	public=True,
-# 	permission_classes=(permissions.AllowAny,),
-# )
+
 class BothHttpAndHttpsSchemaGenerator(OpenAPISchemaGenerator):
     def get_schema(self, request=None, public=False):
         schema = super().get_schema(request, public)
@@ -45,13 +33,10 @@ swagger_info = openapi.Info(
 		title="Backend Api",
 		default_version='v1',
 		description="Online",
-		# terms_of_service="https://www.google.com/policies/terms/",
 		contact=openapi.Contact(email="contact@nishant.com"),
-		# license=openapi.License(name="BSD License"),
 	)
 schema_view = get_schema_view(
     validators=['ssv', 'flex'],
-    # url='https://api.poswithlogic.com/',
     generator_class=BothHttpAndHttpsSchemaGenerator,
     public=True,
     permission_classes=[permissions.AllowAny],
@@ -67,13 +52,6 @@ urlpatterns = [
 	path('redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
 	path('', ApiIndexView,name="initial_page"),
 	path('django-admin/', admin.site.urls),
-	# path('api/basics/', include('basics.urls')),
-	# path('api/admins/', include('admins.urls')),
 	path('project/account/', include('account.urls')),
 	path('project/product_management/', include('product_management.urls')),
-
-
-	
-
-
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
